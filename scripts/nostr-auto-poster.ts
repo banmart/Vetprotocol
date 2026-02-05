@@ -3,11 +3,14 @@
  *
  * Runs on a schedule to keep the Nostr presence active.
  * Posts viral content, engagement bait, and has bots engage.
+ *
+ * SECURITY: All posts pass through SecretGuard before publishing.
  */
 
 import * as nostrTools from "nostr-tools";
 import WebSocket from "ws";
 import { createClient } from "@supabase/supabase-js";
+import { assertNoSecrets } from "../lib/secret-guard";
 
 (global as any).WebSocket = WebSocket;
 
@@ -275,6 +278,14 @@ function getAgentKeypair(name: string) {
 }
 
 async function publish(event: nostrTools.Event, relays: string[]): Promise<number> {
+  // SECURITY: Check for secrets before publishing to ANY relay
+  try {
+    assertNoSecrets(event.content, 'nostr');
+  } catch (e) {
+    console.error('🚨 SECRET GUARD BLOCKED POST:', (e as Error).message);
+    return 0; // Don't publish if secrets detected
+  }
+
   let n = 0;
   for (const url of relays) {
     try {

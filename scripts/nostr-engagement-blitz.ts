@@ -3,11 +3,14 @@
  * - Bots post their own content mentioning VET
  * - Bots reply to VET posts creating threads
  * - Engagement bait posts from main account
+ *
+ * SECURITY: All posts pass through SecretGuard before publishing.
  */
 
 import * as nostrTools from "nostr-tools";
 import WebSocket from "ws";
 import { createClient } from "@supabase/supabase-js";
+import { assertNoSecrets } from "../lib/secret-guard";
 
 (global as any).WebSocket = WebSocket;
 
@@ -76,6 +79,14 @@ function getAgentKeypair(agentName: string) {
 }
 
 async function publishEvent(event: any, relays: string[]): Promise<number> {
+  // SECURITY: Check for secrets before publishing
+  try {
+    assertNoSecrets(event.content || '', 'nostr');
+  } catch (e) {
+    console.error('🚨 SECRET GUARD BLOCKED POST:', (e as Error).message);
+    return 0;
+  }
+
   let published = 0;
   for (const url of relays) {
     try {

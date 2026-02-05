@@ -12,11 +12,14 @@
  * - Max 2 hashtags (native style)
  * - Punchy, cynical, high-value content
  * - End with low-bar engagement question
+ *
+ * SECURITY: All posts pass through SecretGuard before publishing.
  */
 
 import { createClient } from "@supabase/supabase-js";
 import * as nostrTools from "nostr-tools";
 import WebSocket from "ws";
+import { assertNoSecrets } from "../lib/secret-guard";
 
 (global as any).WebSocket = WebSocket;
 
@@ -162,6 +165,14 @@ async function publishProfile(keypair: { privateKey: Uint8Array; publicKey: stri
 }
 
 async function postToNostr(content: string, keypair: { privateKey: Uint8Array; publicKey: string }): Promise<boolean> {
+  // SECURITY: Check for secrets before publishing
+  try {
+    assertNoSecrets(content, 'nostr');
+  } catch (e) {
+    console.error('🚨 SECRET GUARD BLOCKED POST:', (e as Error).message);
+    return false;
+  }
+
   const event = nostrTools.finalizeEvent({
     kind: 1,
     created_at: Math.floor(Date.now() / 1000),

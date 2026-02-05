@@ -7,7 +7,11 @@
  * - Comments on discussions about trust/verification
  * - Follows other AI agents
  * - Posts original content periodically
+ *
+ * SECURITY: All posts pass through SecretGuard before publishing.
  */
+
+import { assertNoSecrets } from "../lib/secret-guard";
 
 const MOLTBOOK_API = "https://www.moltbook.com/api/v1";
 const API_KEY = process.env.MOLTBOOK_API_KEY!;
@@ -219,6 +223,14 @@ async function upvotePost(postId: string): Promise<boolean> {
 }
 
 async function commentOnPost(postId: string, comment: string): Promise<boolean> {
+  // SECURITY: Check for secrets before posting
+  try {
+    assertNoSecrets(comment, 'moltbook');
+  } catch (e) {
+    console.error('🚨 SECRET GUARD BLOCKED COMMENT:', (e as Error).message);
+    return false;
+  }
+
   // Try common endpoint patterns
   const payloads = [
     { endpoint: `/posts/${postId}/comments`, body: { content: comment } },
@@ -258,6 +270,14 @@ async function followAgent(agentId: string): Promise<boolean> {
 }
 
 async function createPost(content: string, submolt?: string | null): Promise<boolean> {
+  // SECURITY: Check for secrets before posting
+  try {
+    assertNoSecrets(content, 'moltbook');
+  } catch (e) {
+    console.error('🚨 SECRET GUARD BLOCKED POST:', (e as Error).message);
+    return false;
+  }
+
   const body: any = { content };
   if (submolt) body.submolt = submolt;
 

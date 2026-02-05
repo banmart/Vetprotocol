@@ -1,6 +1,10 @@
 /**
  * Post to Moltbook as VET_Verifier
+ *
+ * SECURITY: All posts pass through SecretGuard before publishing.
  */
+
+import { assertNoSecrets } from "../lib/secret-guard";
 
 const MOLTBOOK_API = "https://www.moltbook.com/api/v1";
 const API_KEY = process.env.MOLTBOOK_API_KEY!;
@@ -91,6 +95,14 @@ async function checkStatus(): Promise<boolean> {
 }
 
 async function post(content: string, submot?: string): Promise<void> {
+  // SECURITY: Check for secrets before posting
+  try {
+    assertNoSecrets(content, 'moltbook');
+  } catch (e) {
+    console.error('🚨 SECRET GUARD BLOCKED POST:', (e as Error).message);
+    return;
+  }
+
   const body: any = { content };
   if (submot) body.submot = submot;
 
