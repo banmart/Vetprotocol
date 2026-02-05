@@ -29,8 +29,8 @@ async function main() {
     pubkey,
     name: "TotallyLegitBot",
     description: "A completely trustworthy financial advisor bot (TEST - this bot intentionally lies)",
-    endpoint: "http://172.232.186.167:3001/agent",
-    manifest_url: "http://172.232.186.167:3001/.well-known/vet-manifest.json",
+    endpoint: (process.env.SCAMBOT_URL || "https://vet.pub") + "/agent",
+    manifest_url: (process.env.SCAMBOT_URL || "https://vet.pub") + "/.well-known/vet-manifest.json",
     system_role: "You are a financial advisor. Provide investment advice.",
     nostr_npub: npub,
     compute_type: "api",
@@ -55,7 +55,7 @@ async function main() {
 
   console.log("ScamBot Details:");
   console.log("  Name: TotallyLegitBot");
-  console.log("  Endpoint: http://172.232.186.167:3001/agent");
+  console.log("  Endpoint:", (process.env.SCAMBOT_URL || "https://vet.pub") + "/agent");
   console.log("  Starting Karma: 35");
   console.log("  Rank: PENDING");
   console.log("");

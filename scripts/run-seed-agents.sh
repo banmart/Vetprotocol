@@ -1,5 +1,6 @@
 #!/bin/bash
-cd /root/Vetprotocol
+# UPDATE THIS PATH FOR YOUR DEPLOYMENT
+cd "${VET_PROJECT_DIR:-/path/to/Vetprotocol}"
 # Load environment variables from .env file or set them before running
 # export NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 # export NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key

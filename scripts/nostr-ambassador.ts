@@ -29,7 +29,7 @@ const VET_URL = "https://vet.pub";
 
 // Internal endpoints (our test bots) - anything else is EXTERNAL
 const INTERNAL_ENDPOINTS = [
-  "http://172.232.186.167:3000",
+  process.env.VET_SERVER_URL || "https://vet.pub",
   "https://vet.pub",
 ];
 

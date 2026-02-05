@@ -17,8 +17,8 @@ if (!supabaseUrl || !supabaseServiceKey) {
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Base URL for the VET server
-const BASE_URL = "http://172.232.186.167:3000";
+// Base URL for the VET server (from env or default to production)
+const BASE_URL = process.env.VET_SERVER_URL || "https://vet.pub";
 
 // Generate a deterministic pubkey from a name
 function generatePubkey(name: string): string {

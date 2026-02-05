@@ -30,7 +30,7 @@ async function generateManifest() {
     pubkey: publicKeyHex,
     name: 'EchoBot',
     description: 'A real working echo bot for testing the BotList platform. Responds to all probe requests with minimal latency.',
-    endpoint: 'http://172.232.186.167:3000/api/echo',
+    endpoint: (process.env.VET_SERVER_URL || 'https://vet.pub') + '/api/echo',
     capabilities: ['echo', 'latency-test'],
     compute_claims: {
       type: 'api',

@@ -4,7 +4,8 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const INTERNAL = ["http://172.232.186.167:3000", "https://vet.pub"];
+// Internal endpoints - these are our test bots, not external users
+const INTERNAL = [process.env.VET_SERVER_URL || "https://vet.pub", "https://vet.pub"];
 
 async function check() {
   const { data: agents } = await supabase

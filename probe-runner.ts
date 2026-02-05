@@ -7,7 +7,7 @@
  * 3. Availability
  *
  * Run with: npx tsx scripts/probe-runner.ts
- * Cron: 0,15,30,45 * * * * cd /root/botlist && npx tsx scripts/probe-runner.ts
+ * Cron: 0,15,30,45 * * * * cd /path/to/Vetprotocol && npx tsx scripts/probe-runner.ts
  */
 
 import { createClient } from "@supabase/supabase-js";

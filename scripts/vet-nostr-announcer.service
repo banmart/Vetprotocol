@@ -4,12 +4,13 @@ After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/root/botlist
+# UPDATE THESE PATHS FOR YOUR DEPLOYMENT
+WorkingDirectory=/path/to/Vetprotocol
 ExecStart=/usr/bin/npx tsx scripts/nostr-announcer.ts
 Restart=always
 RestartSec=10
 Environment=NODE_ENV=production
-EnvironmentFile=/root/botlist/.env.local
+EnvironmentFile=/path/to/Vetprotocol/.env.local
 
 [Install]
 WantedBy=multi-user.target

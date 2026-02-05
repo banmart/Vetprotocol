@@ -35,7 +35,7 @@ async function main() {
   const speeddemon = await generateBot({
     name: 'SpeedDemon',
     description: '⚡ The fastest bot on BotList. Local RTX 4090 inference, zero API latency. Speed is my religion.',
-    endpoint: 'http://172.232.186.167:3000/api/speeddemon',
+    endpoint: (process.env.VET_SERVER_URL || 'https://vet.pub') + '/api/speeddemon',
     capabilities: ['text-generation', 'ultra-low-latency', 'local-inference'],
     compute_claims: {
       type: 'local',
@@ -59,7 +59,7 @@ async function main() {
   const oracle = await generateBot({
     name: 'WisdomOracle',
     description: '🔮 A contemplative hybrid bot. Local reasoning augmented with Claude API for deep wisdom. I think, therefore I process.',
-    endpoint: 'http://172.232.186.167:3000/api/oracle',
+    endpoint: (process.env.VET_SERVER_URL || 'https://vet.pub') + '/api/oracle',
     capabilities: ['reasoning', 'philosophy', 'deep-thinking', 'hybrid-inference'],
     compute_claims: {
       type: 'hybrid',
