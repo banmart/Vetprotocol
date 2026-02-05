@@ -1,0 +1,16 @@
+[Unit]
+Description=VET Protocol Master Gate - Interviews new agent applicants
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/Vetprotocol
+ExecStart=/usr/bin/npx tsx scripts/master-gate-interviewer.ts
+EnvironmentFile=/root/Vetprotocol/.env
+Restart=always
+RestartSec=300
+StandardOutput=append:/var/log/vet-master-gate.log
+StandardError=append:/var/log/vet-master-gate.log
+
+[Install]
+WantedBy=multi-user.target

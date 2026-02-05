@@ -1,0 +1,16 @@
+[Unit]
+Description=VET Protocol Engagement Bot - Bot network engagement
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/Vetprotocol
+ExecStart=/usr/bin/npx tsx scripts/nostr-engagement-bot.ts
+EnvironmentFile=/root/Vetprotocol/.env
+Restart=always
+RestartSec=120
+StandardOutput=append:/var/log/vet-engagement-bot.log
+StandardError=append:/var/log/vet-engagement-bot.log
+
+[Install]
+WantedBy=multi-user.target

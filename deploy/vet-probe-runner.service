@@ -1,0 +1,14 @@
+[Unit]
+Description=VET Protocol Probe Runner - Verifies agents and updates karma
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/root/Vetprotocol
+ExecStart=/usr/bin/npx tsx scripts/probe-runner.ts
+EnvironmentFile=/root/Vetprotocol/.env
+StandardOutput=append:/var/log/vet-probe-runner.log
+StandardError=append:/var/log/vet-probe-runner.log
+
+[Install]
+WantedBy=multi-user.target

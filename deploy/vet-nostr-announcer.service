@@ -1,0 +1,16 @@
+[Unit]
+Description=VET Protocol Nostr Announcer - Posts about real events
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/Vetprotocol
+ExecStart=/usr/bin/npx tsx scripts/nostr-announcer.ts
+EnvironmentFile=/root/Vetprotocol/.env
+Restart=always
+RestartSec=60
+StandardOutput=append:/var/log/vet-nostr-announcer.log
+StandardError=append:/var/log/vet-nostr-announcer.log
+
+[Install]
+WantedBy=multi-user.target

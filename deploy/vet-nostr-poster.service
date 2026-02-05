@@ -1,0 +1,16 @@
+[Unit]
+Description=VET Protocol Nostr Auto-Poster - Posts viral content
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/Vetprotocol
+ExecStart=/usr/bin/npx tsx scripts/nostr-auto-poster.ts
+EnvironmentFile=/root/Vetprotocol/.env
+Restart=always
+RestartSec=60
+StandardOutput=append:/var/log/vet-nostr-poster.log
+StandardError=append:/var/log/vet-nostr-poster.log
+
+[Install]
+WantedBy=multi-user.target
