@@ -1,0 +1,15 @@
+[Unit]
+Description=VET Protocol Nostr Announcer (Clean)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/botlist
+ExecStart=/usr/bin/npx tsx scripts/nostr-announcer.ts
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+EnvironmentFile=/root/botlist/.env.local
+
+[Install]
+WantedBy=multi-user.target
